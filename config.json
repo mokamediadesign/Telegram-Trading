@@ -1,0 +1,8 @@
+{
+    "telegram_bot_token": "YOUR_TELEGRAM_BOT_TOKEN",
+    "api_key": "YOUR_API_KEY",
+    "api_secret": "YOUR_API_SECRET",
+    "trading_pair": "BTCUSDT",
+    "take_profit_percentage": 5,
+    "stop_loss_percentage": 3
+  }

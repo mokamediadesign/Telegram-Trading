@@ -3,7 +3,7 @@ import { BigNumber } from "bignumber.js";
 import { execRunMethod, getAccountBalance, execFifth, getMacros, macroReplace, toDecimal } from "./utils";
 const MACROS = getMacros();
 
-type currnecy = {
+type currency = {
     address:string
     symbol: string
     name: string
@@ -12,7 +12,7 @@ type currnecy = {
 const UI_DECIMALS = 5;
 
 interface MapObj {
-    [key: string]: currnecy 
+    [key: string]: currency 
 }
 const currencies: MapObj = {
     'USDC': {address:  MACROS['$USDC'] , symbol: '💲', name:'USDC'},
@@ -39,7 +39,7 @@ export function initMarkupUI(bot: any) {
     bot.command('start', start);
 
   
-    bot.hears('Back to Menu 🏠', start);
+    bot.hears('Back to Main Menu 🏠', start);
 
     bot.on('text', onText);
     bot.on('quit', (ctx: any)=> { console.log('x')});
@@ -190,7 +190,7 @@ const showState = async (ctx: any) => {
             let iDir = ctx.session.source_token.name == 'USDC' ? '1': '0';
             let amount = (new BigNumber(ctx.session.swap_amount)).multipliedBy(10 ** UI_DECIMALS).toString();
             
-            ctx.reply(`fetching expcted output amount ...`);
+            ctx.reply(`Fetching expected output amount...🚀`);
             let minAmountOut = await execRunMethod(MACROS['$DEX'], 'get_amount_out_lp', [ amount, iDir]); 
             //console.log(`minAmountOut=${minAmountOut}`);
             ctx.session.min_amount_out = new BigNumber(minAmountOut).div(10 ** UI_DECIMALS).toFixed(); // TODO should be fixed after deployemnt
@@ -200,7 +200,7 @@ const showState = async (ctx: any) => {
             let price = (new BigNumber(reserves_a)).div(reserves_b);
             ctx.replyWithHTML(`<b>Price</b> 1 $USDC = ${price} $KILO`);
            
-            const msg = `swapping ${ctx.session.swap_amount}$${ctx.session.source_token.name} for minimum amount of ${ctx.session.min_amount_out}$${ctx.session.target_token.name} (after fees)`;
+            const msg = `Swapping ${ctx.session.swap_amount}$${ctx.session.source_token.name} for minimum amount of ${ctx.session.min_amount_out}$${ctx.session.target_token.name} (after fees)`;
             
             ctx.reply(msg, Markup.inlineKeyboard([
                 Markup.button.callback('✅ Swap', 'complete-swap'), 
